@@ -74,4 +74,13 @@ namespace Sort
         }
 
     }
+    //https://en.wikipedia.org/wiki/Insertion_sort
+
+    public class InsertSort<T> : ISort<T> where T : IComparable
+    {
+        public T[] Sort(T[] values)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
