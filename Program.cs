@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Sort
 {
@@ -9,12 +10,35 @@ namespace Sort
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+
+            int[] testData = new int[] { 3, 2, 5, 1, 2, 3 };
+            int[] testData2 = new int[5] { 99, 98, 92, 97, 95 };
+
+            var bubbleSort = new BubbleSort<int>();
+            
+            Console.WriteLine(ConvertStringArrayToString(testData2));
+            Console.WriteLine("Results:");
+            Console.WriteLine(ConvertStringArrayToString(bubbleSort.Sort(testData2)));
+
+            Console.WriteLine(ConvertStringArrayToString(testData));
+            Console.WriteLine("Results:");
+            Console.WriteLine(ConvertStringArrayToString(bubbleSort.Sort(testData)));
         }
 
 
         //https://en.wikipedia.org/wiki/Bubble_sort
+        public static string ConvertStringArrayToString(int[] array)
+        {
+            // Concatenate all the elements into a StringBuilder.
+            StringBuilder builder = new StringBuilder();
+            foreach (int value in array)
+            {
+                builder.Append(value);
+                builder.Append('.');
+            }
+            return builder.ToString();
+        }
 
-        
     }
 
     public interface ISort<T> where T :IComparable
@@ -24,37 +48,29 @@ namespace Sort
 
     public class BubbleSort<T> : ISort<T> where T :IComparable
     {
-        bool swap = true;
-        public T[] Sort(T[] values)
+        public T[] Sort(T[] nums)
         {
-            swap = false;
-            var temp = SortEnumerable(values).ToArray();
-
+            bool swap = true;
+            var n = nums.Length - 1;
             while (swap)
             {
                 swap = false;
-                temp = SortEnumerable(temp).ToArray();
-            }
-
-            return SortEnumerable(temp).ToArray();
-        }
-
-
-        public IEnumerable<T> SortEnumerable(T[] nums)
-        {
-            for (int i = 0; i < nums.Length - 1; i++)
-            {
-                if (nums[i].CompareTo(nums[i + 1])>0)
+                var newn = 1;
+                for (int i = 0; i < n; i++)
                 {
-                    swap = true;
-                    var swaps = nums[i + 1];
-                    nums[i + 1] = nums[i];
-                    nums[i] = swaps;
+                    if (nums[i].CompareTo(nums[i + 1]) > 0)
+                    {
+                        swap = true;
+                        var swaps = nums[i + 1];
+                        nums[i + 1] = nums[i];
+                        nums[i] = swaps;
+                        newn= i + 1;
+                    }
                 }
-                yield return nums[i];
+                n = newn;
             }
 
-            yield return nums[nums.Length - 1];
+            return nums;
         }
 
     }
