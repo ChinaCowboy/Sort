@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,14 @@ namespace Sort
             Console.WriteLine(ConvertStringArrayToString(testData));
             Console.WriteLine("Results:");
             Console.WriteLine(ConvertStringArrayToString(bubbleSort.Sort(testData)));
+
+            var quickSort= new QuickSort<int>();
+            Console.WriteLine(ConvertStringArrayToString(testData2));
+            Console.WriteLine("Results:");
+            Console.WriteLine(ConvertStringArrayToString(quickSort.Sort(testData2)));
+
+            Console.ReadLine();
+
         }
 
 
@@ -76,11 +85,45 @@ namespace Sort
     }
     //https://en.wikipedia.org/wiki/Insertion_sort
 
-    public class InsertSort<T> : ISort<T> where T : IComparable
+    public class QuickSort<T> : ISort<T> where T : IComparable
     {
         public T[] Sort(T[] values)
         {
-            throw new NotImplementedException();
+            return QuickSortA(values, 0, values.Length - 1);
+        }
+
+        public T[] QuickSortA(T[] values,int firstValue, int lastValue)
+        {
+            if (values[firstValue].CompareTo(values[lastValue]) < 0)
+            {
+                var p = Partition(values, firstValue, lastValue);
+                QuickSortA(values, firstValue, p - 1);
+                QuickSortA(values, p + 1, lastValue);
+            }
+
+            return values;
+        }
+
+        private int Partition(T[] values, int firstValue, int lastValue)
+        {
+            var pivot = values[lastValue];
+            var i = firstValue;
+            for (int j = firstValue; j <= lastValue; j++)
+            {
+                if (values[j].CompareTo(pivot) < 0)
+                {
+                    var temp = values[i];
+                    values[i] = values[j];
+                    values[j] = temp;
+                    i += 1;
+                }
+                
+            }
+
+            var temp2 = values[i];
+            values[i] = values[lastValue];
+            values[lastValue] = temp2;
+            return i;
         }
     }
 }
