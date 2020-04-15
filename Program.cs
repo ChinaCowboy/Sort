@@ -14,23 +14,34 @@ namespace Sort
 
             int[] testData = new int[] { 3, 2, 5, 1, 2, 3 };
             int[] testData2 = new int[5] { 99, 98, 92, 97, 95 };
+            int[] testData3 = new int[4] { 5, 2, 3, 1 };
 
             var bubbleSort = new BubbleSort<int>();
             
-            Console.WriteLine(ConvertStringArrayToString(testData2));
-            Console.WriteLine("Results:");
-            Console.WriteLine(ConvertStringArrayToString(bubbleSort.Sort(testData2)));
+            //Console.WriteLine(ConvertStringArrayToString(testData2));
+            //Console.WriteLine("Results:");
+            //Console.WriteLine(ConvertStringArrayToString(bubbleSort.Sort(testData2)));
+
+            //Console.WriteLine(ConvertStringArrayToString(testData));
+            //Console.WriteLine("Results:");
+            //Console.WriteLine(ConvertStringArrayToString(bubbleSort.Sort(testData)));
+
+            var quickSort= new QuickSort<int>();
 
             Console.WriteLine(ConvertStringArrayToString(testData));
             Console.WriteLine("Results:");
-            Console.WriteLine(ConvertStringArrayToString(bubbleSort.Sort(testData)));
+            Console.WriteLine(ConvertStringArrayToString(quickSort.Sort(testData2)));
 
-            var quickSort= new QuickSort<int>();
+
             Console.WriteLine(ConvertStringArrayToString(testData2));
             Console.WriteLine("Results:");
             Console.WriteLine(ConvertStringArrayToString(quickSort.Sort(testData2)));
 
+            Console.WriteLine(ConvertStringArrayToString(testData3));
+            Console.WriteLine("Results:");
+            Console.WriteLine(ConvertStringArrayToString(quickSort.Sort(testData3)));
             Console.ReadLine();
+
 
         }
 
@@ -89,22 +100,22 @@ namespace Sort
     {
         public T[] Sort(T[] values)
         {
-            return QuickSortA(values, 0, values.Length - 1);
+            return QuickSortA(ref values, 0, values.Length - 1);
         }
 
-        public T[] QuickSortA(T[] values,int firstValue, int lastValue)
+        public T[] QuickSortA(ref T[] values,int firstValue, int lastValue)
         {
-            if (values[firstValue].CompareTo(values[lastValue]) < 0)
+            if (firstValue.CompareTo(lastValue) < 0)
             {
-                var p = Partition(values, firstValue, lastValue);
-                QuickSortA(values, firstValue, p - 1);
-                QuickSortA(values, p + 1, lastValue);
+                var p = Partition(ref values, firstValue, lastValue);
+                QuickSortA(ref values, firstValue, p - 1);
+                QuickSortA(ref values, p, lastValue);
             }
 
             return values;
         }
 
-        private int Partition(T[] values, int firstValue, int lastValue)
+        private int Partition(ref T[]  values, int firstValue, int lastValue)
         {
             var pivot = values[lastValue];
             var i = firstValue;
