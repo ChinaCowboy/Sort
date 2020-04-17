@@ -14,9 +14,11 @@ namespace Sort
 
             int[] testData = new int[] { 3, 2, 5, 1, 2, 3 };
             int[] testData2 = new int[5] { 99, 98, 92, 97, 95 };
-            int[] testData3 = new int[4] { 5, 2, 3, 1 };
+            int[] testData3 = new int[6]{5, 1, 1, 2, 0, 0};
+              
 
-            var bubbleSort = new BubbleSort<int>();
+
+        var bubbleSort = new BubbleSort<int>();
             
             //Console.WriteLine(ConvertStringArrayToString(testData2));
             //Console.WriteLine("Results:");
@@ -100,36 +102,39 @@ namespace Sort
     {
         public T[] Sort(T[] values)
         {
-            return QuickSortA(ref values, 0, values.Length - 1);
+            return QuickSortA(values, 0, values.Length - 1);
         }
 
-        public T[] QuickSortA(ref T[] values,int firstValue, int lastValue)
+        public T[] QuickSortA(T[] values,int firstValue, int lastValue)
         {
             if (firstValue.CompareTo(lastValue) < 0)
             {
-                var p = Partition(ref values, firstValue, lastValue);
-                QuickSortA(ref values, firstValue, p - 1);
-                QuickSortA(ref values, p, lastValue);
+                var p = Partition(values, firstValue, lastValue);
+                QuickSortA(values, firstValue, p - 1);
+                QuickSortA(values, p+1, lastValue);
             }
 
             return values;
         }
 
-        private int Partition(ref T[]  values, int firstValue, int lastValue)
+        private int Partition(T[]  values, int firstValue, int lastValue)
         {
-            var pivot = values[lastValue];
-            var i = firstValue;
-            for (int j = firstValue; j <= lastValue; j++)
+            var pivot = firstValue-1;
+            var i = firstValue-1;
+            for (int j = firstValue; j < lastValue; j++)
             {
-                if (values[j].CompareTo(pivot) < 0)
+                if (values[j].CompareTo(values[lastValue]) < 0)
                 {
+                    pivot++;
+                    i++;
+
                     var temp = values[i];
                     values[i] = values[j];
                     values[j] = temp;
-                    i += 1;
                 }
-                
+
             }
+            i++;
 
             var temp2 = values[i];
             values[i] = values[lastValue];
@@ -137,4 +142,11 @@ namespace Sort
             return i;
         }
     }
+
+
+
+
+ //   https://programm.top/en/c-sharp/algorithm/array-sort/quick-sort/
+
+
 }
