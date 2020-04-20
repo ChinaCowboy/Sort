@@ -105,27 +105,25 @@ namespace Sort
             return QuickSortA(values, 0, values.Length - 1);
         }
 
-        public T[] QuickSortA(T[] values,int firstValue, int lastValue)
+        public T[] QuickSortA(T[] values,int minValue, int maxValue)
         {
-            if (firstValue.CompareTo(lastValue) < 0)
+            if (minValue.CompareTo(maxValue) < 0)
             {
-                var p = Partition(values, firstValue, lastValue);
-                QuickSortA(values, firstValue, p - 1);
-                QuickSortA(values, p+1, lastValue);
+                var p = Partition(values, minValue, maxValue);
+                QuickSortA(values, minValue, p - 1);
+                QuickSortA(values, p+1, maxValue);
             }
 
             return values;
         }
 
-        private int Partition(T[]  values, int firstValue, int lastValue)
+        private int Partition(T[]  values, int minValue, int maxValue)
         {
-            var pivot = firstValue-1;
-            var i = firstValue-1;
-            for (int j = firstValue; j < lastValue; j++)
+            var i = minValue-1;
+            for (int j = minValue; j < maxValue; j++)
             {
-                if (values[j].CompareTo(values[lastValue]) < 0)
+                if (values[j].CompareTo(values[maxValue]) < 0)
                 {
-                    pivot++;
                     i++;
 
                     var temp = values[i];
@@ -137,8 +135,8 @@ namespace Sort
             i++;
 
             var temp2 = values[i];
-            values[i] = values[lastValue];
-            values[lastValue] = temp2;
+            values[i] = values[maxValue];
+            values[maxValue] = temp2;
             return i;
         }
     }
